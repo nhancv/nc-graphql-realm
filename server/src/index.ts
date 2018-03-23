@@ -48,8 +48,14 @@ const books = realm.objects('Book')
 
 // The GraphQL schema in string form
 const typeDefs = `
-  type Query { books: [Book] }
-  type Book { title: String, author: String }
+  type Book { 
+    title: String, 
+    author: String 
+  }
+
+  type Query { 
+    books: [Book] 
+  }
 `
 
 // The resolvers
