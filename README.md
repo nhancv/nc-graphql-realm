@@ -1,4 +1,4 @@
-# Treact Template
+# GraphQL + Realm
 
 ## Tech stack
 ### Server
