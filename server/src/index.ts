@@ -1,4 +1,5 @@
 const path = require('path')
+const cors = require('cors')
 const express = require('express')
 const bodyParser = require('body-parser')
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
@@ -7,6 +8,8 @@ const app = express()
 const log = console.log
 
 var port = process.env.PORT || 4000
+// CORS on ExpressJS: https://github.com/expressjs/cors
+app.use(cors())
 
 // For fontend route
 var frontendDir = path.join(path.dirname(path.dirname(__dirname)), 'frontend')
@@ -15,43 +18,43 @@ app.get('/home', function(req, res) {
   res.sendFile(path.join(frontendDir, 'build', 'index.html'))
 })
 app.get('/', function(req, res) {
-  res.redirect('/home');
+  res.redirect('/home')
 })
 
 // Some fake data
 const books = [
   {
     title: "Harry Potter and the Sorcerer's stone",
-    author: 'J.K. Rowling',
+    author: 'J.K. Rowling'
   },
   {
     title: 'Jurassic Park',
-    author: 'Michael Crichton',
-  },
-];
+    author: 'Michael Crichton'
+  }
+]
 
 // The GraphQL schema in string form
 const typeDefs = `
   type Query { books: [Book] }
   type Book { title: String, author: String }
-`;
+`
 
 // The resolvers
 const resolvers = {
-  Query: { books: () => books },
-};
+  Query: { books: () => books }
+}
 
 // Put together a schema
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers,
-});
+  resolvers
+})
 
 // The GraphQL endpoint
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
 
 // GraphiQL, a visual editor for queries
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 app.listen(port, function() {
-  log('Go to http://localhost:%d/graphiql to run queries!', port);
+  log('Go to http://localhost:%d/graphiql to run queries!', port)
 })
