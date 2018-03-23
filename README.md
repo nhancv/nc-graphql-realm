@@ -37,3 +37,5 @@ cd frontend
 npm run build
 ```
 
+### Screenshot
+![Preview](screenshot.png)
