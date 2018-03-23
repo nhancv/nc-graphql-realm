@@ -21,17 +21,30 @@ app.get('/', function(req, res) {
   res.redirect('/home')
 })
 
-// Some fake data
-const books = [
-  {
+// Realm data
+var Realm = require('realm')
+const BookSchema = {
+  name: 'Book',
+  properties: {
+    title: 'string',
+    author: 'string',
+    category: 'string?'
+  }
+}
+const realm = new Realm({ schema: [BookSchema] })
+realm.write(() => {
+  realm.delete(realm.objects('Book'))
+  realm.create('Book', {
     title: "Harry Potter and the Sorcerer's stone",
     author: 'J.K. Rowling'
-  },
-  {
+  })
+  realm.create('Book', {
     title: 'Jurassic Park',
-    author: 'Michael Crichton'
-  }
-]
+    author: 'Michael Crichton',
+    category: 'History'
+  })
+})
+const books = realm.objects('Book')
 
 // The GraphQL schema in string form
 const typeDefs = `

@@ -1,4 +1,8 @@
 node_modules
 .idea
-.apikey*.json
+*key.json
 *.log
+*.realm.lock
+*.realm.note
+*.realm.management
+.env
